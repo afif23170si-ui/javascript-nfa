@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 1 - Menghitung Luas</title>
+</head>
+<body>
+
+    <script>
+        // --- PERHITUNGAN LUAS PERSEGI PANJANG ---
+        // Mendeklarasikan variabel untuk panjang dan lebar menggunakan 'let'[cite: 59].
+        let panjang = 15;
+        let lebar = 8;
+        // Melakukan perhitungan luas menggunakan operator perkalian (*)[cite: 198, 199].
+        let luasPersegiPanjang = panjang * lebar;
+        // Menampilkan hasil ke halaman web menggunakan document.write().
+        document.write("<h2>Perhitungan Luas Persegi Panjang</h2>");
+        document.write(`Panjang: ${panjang} <br>`);
+        document.write(`Lebar: ${lebar} <br>`);
+        document.write(`Hasil: ${luasPersegiPanjang} <br><br>`);
+
+
+        // --- PERHITUNGAN LUAS BUJUR SANGKAR ---
+        // Mendeklarasikan variabel untuk sisi menggunakan 'const' karena nilainya tetap[cite: 57].
+        const sisi = 10;
+        // Melakukan perhitungan luas menggunakan operator perkalian (*)[cite: 198, 199].
+        let luasBujurSangkar = sisi * sisi;
+        // Menampilkan hasil ke halaman web.
+        document.write("<h2>Perhitungan Luas Bujur Sangkar</h2>");
+        document.write(`Sisi: ${sisi} <br>`);
+        document.write(`Hasil: ${luasBujurSangkar} <br><br>`);
+
+
+        // --- PERHITUNGAN LUAS SEGITIGA ---
+        // Mendeklarasikan variabel untuk alas dan tinggi menggunakan 'let'[cite: 59].
+        let alas = 12;
+        let tinggi = 9;
+        // Melakukan perhitungan luas menggunakan operator perkalian (*) dan pembagian (/)[cite: 198, 199, 202, 203].
+        let luasSegitiga = (alas * tinggi) / 2;
+        // Menampilkan hasil ke halaman web.
+        document.write("<h2>Perhitungan Luas Segitiga</h2>");
+        document.write(`Alas: ${alas} <br>`);
+        document.write(`Tinggi: ${tinggi} <br>`);
+        document.write(`Hasil: ${luasSegitiga}`);
+    </script>
+    
+</body>
+</html>
