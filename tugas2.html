@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 2 Javascript - Data Pegawai</title>
+    <style>
+        /* CSS sederhana agar tabel terlihat lebih rapi */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        thead {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tfoot {
+            background-color: #333;
+            color: white;
+            font-weight: bold;
+        }
+        td:first-child {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align: center;">Data Gaji Pegawai</h1>
+    <h2 style="text-align: center;">Dodi Prayodi</h2>
+
+    <table id="tabel-gaji">
+        <thead>
+            </thead>
+        <tbody>
+            </tbody>
+        <tfoot>
+            </tfoot>
+    </table>
+
+    <script>
+        // --- 1. DATA DIKETAHUI ---
+        const nama = 'Dodi Prayodi';
+        const umur = 25;
+        const jabatan = 'manajer'; // Gunakan huruf kecil untuk kemudahan perbandingan
+        const status = 'menikah';
+
+        // --- 2. VARIABEL UNTUK PERHITUNGAN ---
+        let gajiPokok;
+        let tunjanganJabatan;
+        let bpjs;
+        let tunjanganKeluarga;
+        let totalGaji;
+
+        // --- 3. LOGIKA PERHITUNGAN ---
+
+        // Menentukan Gaji Pokok (Gapok) menggunakan struktur IF
+        if (jabatan === 'manajer') {
+            gajiPokok = 15000000;
+        } else if (jabatan === 'asisten manajer') {
+            gajiPokok = 10000000;
+        } else if (jabatan === 'staff') {
+            gajiPokok = 5000000;
+        } else {
+            gajiPokok = 0; // Default jika jabatan tidak terdaftar
+        }
+
+        // Menghitung Tunjangan Jabatan (15% dari Gaji Pokok)
+        tunjanganJabatan = 0.15 * gajiPokok;
+
+        // Menghitung BPJS (10% dari Gaji Pokok)
+        bpjs = 0.10 * gajiPokok;
+
+        // Menentukan Tunjangan Keluarga menggunakan Operator TERNARY
+        // Jika status 'menikah', dapat 20% dari Gapok, jika tidak, dapat 0.
+        tunjanganKeluarga = (status === 'menikah') ? 0.20 * gajiPokok : 0;
+
+        // Menghitung Total Gaji
+        totalGaji = gajiPokok + tunjanganJabatan + bpjs + tunjanganKeluarga;
+
+        // --- 4. MENAMPILKAN DATA KE TABEL HTML ---
+
+        // Fungsi untuk format angka menjadi Rupiah (Rp)
+        const formatRupiah = (angka) => {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(angka);
+        };
+        
+        // Menargetkan elemen thead, tbody, dan tfoot pada tabel
+        const thead = document.querySelector('#tabel-gaji thead');
+        const tbody = document.querySelector('#tabel-gaji tbody');
+        const tfoot = document.querySelector('#tabel-gaji tfoot');
+
+        // Mengisi Judul Kolom (thead)
+        thead.innerHTML = `
+            <tr>
+                <th>Keterangan</th>
+                <th>Data</th>
+            </tr>
+        `;
+
+        // Mengisi Isi Data (tbody)
+        tbody.innerHTML = `
+            <tr>
+                <td>Nama Pegawai</td>
+                <td>${nama}</td>
+            </tr>
+            <tr>
+                <td>Umur</td>
+                <td>${umur} Tahun</td>
+            </tr>
+            <tr>
+                <td>Jabatan</td>
+                <td>${jabatan.charAt(0).toUpperCase() + jabatan.slice(1)}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>${status.charAt(0).toUpperCase() + status.slice(1)}</td>
+            </tr>
+            <tr>
+                <td>Gaji Pokok</td>
+                <td>${formatRupiah(gajiPokok)}</td>
+            </tr>
+            <tr>
+                <td>Tunjangan Jabatan</td>
+                <td>${formatRupiah(tunjanganJabatan)}</td>
+            </tr>
+            <tr>
+                <td>BPJS</td>
+                <td>${formatRupiah(bpjs)}</td>
+            </tr>
+            <tr>
+                <td>Tunjangan Keluarga</td>
+                <td>${formatRupiah(tunjanganKeluarga)}</td>
+            </tr>
+        `;
+
+        // Mengisi Total Gaji (tfoot)
+        tfoot.innerHTML = `
+            <tr>
+                <td>TOTAL GAJI</td>
+                <td>${formatRupiah(totalGaji)}</td>
+            </tr>
+        `;
+
+    </script>
+</body>
+</html>
