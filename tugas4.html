@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manajemen Transportasi</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; background-color: #f4f4f9; }
+        h1, h2 { color: #333; }
+        #daftarPenyewa { border: 1px solid #ccc; padding: 15px; border-radius: 8px; background-color: #fff; }
+        p { background-color: #e9e9f3; padding: 10px; border-radius: 5px; border-left: 5px solid #6a1b9a; }
+        b { color: #6a1b9a; }
+    </style>
+</head>
+<body>
+
+    <h1>Sistem Manajemen Transportasi</h1>
+    <h2>Daftar Pelanggan yang Sedang Menyewa</h2>
+    
+    <div id="daftarPenyewa">
+        </div>
+
+    <script>
+        // BAGIAN 1: DEFINISI CLASS (KONSEP OOP)
+
+        /**
+         * Class dasar (Parent Class) untuk semua jenis kendaraan.
+         * Menggunakan konsep Inheritance (Pewarisan).
+         */
+        class Kendaraan {
+            constructor(merek, model, tahun) {
+                this.merek = merek; // Properti untuk merek [cite: 206]
+                this.model = model;
+                this.tahun = tahun;
+                this.disewa = false; // Status ketersediaan
+            }
+
+            // Method (Behavior) untuk mendapatkan info kendaraan [cite: 208]
+            getInfo() {
+                return `${this.merek} ${this.model} (${this.tahun})`;
+            }
+        }
+
+        /**
+         * Child class yang mewarisi dari Kendaraan.
+         */
+        class Mobil extends Kendaraan {
+            constructor(merek, model, tahun, jumlahPintu) {
+                super(merek, model, tahun); // Memanggil constructor parent class [cite: 347]
+                this.jumlahPintu = jumlahPintu;
+            }
+        }
+
+        /**
+         * Child class lain yang mewarisi dari Kendaraan.
+         */
+        class Motor extends Kendaraan {
+            constructor(merek, model, tahun, tipe) {
+                super(merek, model, tahun);
+                this.tipe = tipe; // Properti khusus motor [cite: 357]
+            }
+        }
+
+        /**
+         * Class untuk merepresentasikan data pelanggan.
+         */
+        class Pelanggan {
+            constructor(nama, nomorTelepon) {
+                this.nama = nama;
+                this.nomorTelepon = nomorTelepon;
+                this.kendaraanDisewa = null; // Awalnya pelanggan belum menyewa apa-apa
+            }
+
+            /**
+             * Metode untuk mencatat transaksi penyewaan kendaraan.
+             * @param {Kendaraan} kendaraan - Objek kendaraan yang akan disewa.
+             */
+            sewaKendaraan(kendaraan) {
+                if (kendaraan && !kendaraan.disewa) {
+                    this.kendaraanDisewa = kendaraan;
+                    kendaraan.disewa = true;
+                    console.log(`${this.nama} berhasil menyewa ${kendaraan.getInfo()}.`);
+                } else {
+                    console.log(`Maaf, kendaraan ini tidak tersedia.`);
+                }
+            }
+        }
+
+
+        // BAGIAN 2: IMPLEMENTASI DAN MANAJEMEN DATA
+
+        // Membuat objek (instance) dari class Kendaraan [cite: 202]
+        const mobil1 = new Mobil("Toyota", "Avanza", 2022, 4);
+        const mobil2 = new Mobil("Honda", "Brio", 2023, 4);
+        const motor1 = new Motor("Yamaha", "NMAX", 2021, "Matic");
+
+        // Membuat database sederhana menggunakan array
+        const daftarKendaraan = [mobil1, mobil2, motor1];
+        const daftarPelanggan = [];
+
+        // Membuat objek pelanggan baru
+        const pelanggan1 = new Pelanggan("Budi Santoso", "081234567890");
+        const pelanggan2 = new Pelanggan("Ani Lestari", "085678901234");
+        
+        // Mencatat pelanggan ke dalam daftar
+        daftarPelanggan.push(pelanggan1);
+        daftarPelanggan.push(pelanggan2);
+
+        // Simulasi transaksi penyewaan
+        pelanggan1.sewaKendaraan(mobil1); // Budi menyewa mobil Avanza
+        pelanggan2.sewaKendaraan(motor1); // Ani menyewa motor NMAX
+
+
+        // BAGIAN 3: MENAMPILKAN DATA (MANIPULASI DOM) [cite: 1]
+
+        /**
+         * Fungsi untuk menampilkan daftar pelanggan yang sedang menyewa ke halaman web.
+         * Ini adalah contoh manipulasi DOM[cite: 4].
+         */
+        function tampilkanDaftarPenyewa() {
+            // Mengakses elemen kontainer dari HTML 
+            const container = document.getElementById("daftarPenyewa");
+            container.innerHTML = ""; // Kosongkan kontainer sebelum menampilkan data baru
+
+            // Filter pelanggan yang sedang menyewa (memiliki kendaraanDisewa)
+            const penyewaAktif = daftarPelanggan.filter(p => p.kendaraanDisewa);
+            
+            if (penyewaAktif.length === 0) {
+                container.innerText = "Belum ada pelanggan yang menyewa kendaraan.";
+                return;
+            }
+
+            penyewaAktif.forEach(pelanggan => {
+                // Membuat elemen paragraf baru untuk setiap penyewa [cite: 67, 68]
+                const el = document.createElement("p");
+                
+                // Mengisi konten teks ke dalam elemen baru [cite: 10, 70]
+                const infoKendaraan = pelanggan.kendaraanDisewa.getInfo();
+                el.innerHTML = `<b>Nama:</b> ${pelanggan.nama} <br>
+                                <b>No. Telepon:</b> ${pelanggan.nomorTelepon} <br>
+                                <b>Kendaraan:</b> ${infoKendaraan}`;
+                
+                // Menambahkan elemen baru ke dalam kontainer di halaman web [cite: 51, 72]
+                container.appendChild(el);
+            });
+        }
+
+        // Panggil fungsi untuk menampilkan data saat halaman dimuat
+        tampilkanDaftarPenyewa();
+
+    </script>
+</body>
+</html>
